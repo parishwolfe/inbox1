@@ -1,0 +1,20 @@
+
+> inbox1@0.0.1 start
+> react-native start
+
+
+Welcome to React Native v0.83
+Starting dev server on http://localhost:8081
+
+error listen EPERM: operation not permitted 0.0.0.0:8081.
+Error: listen EPERM: operation not permitted 0.0.0.0:8081
+    at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at /Users/parishwolfe/Documents/GitHub/inbox1/node_modules/metro/src/index.flow.js:437:14
+    at new Promise (<anonymous>)
+    at earlyPortCheck (/Users/parishwolfe/Documents/GitHub/inbox1/node_modules/metro/src/index.flow.js:433:11)
+    at Object.runServer (/Users/parishwolfe/Documents/GitHub/inbox1/node_modules/metro/src/index.flow.js:197:9)
+    at Object.runServer [as func] (/Users/parishwolfe/Documents/GitHub/inbox1/node_modules/@react-native/community-cli-plugin/dist/commands/start/runServer.js:147:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Command.handleAction (/Users/parishwolfe/Documents/GitHub/inbox1/node_modules/@react-native-community/cli/build/index.js:139:9)
