@@ -1,4 +1,11 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# DEAD PROJECT
+
+The attempt was a react naitive, fully on device inbox summarizer. Not just individual emails, but an ai summary of the entire inbox. Due to several setbacks, the project is now deemed not viable. 
+
+1. the only package for react native that supports on device POP3/IMAP email is `react-native-mailcore` and it is no longer maintained and outright doesnt work. In order to get this working it would be a very big lift.
+2. Google is working on a similar feature for gmail. Given that on-device POP3/IMAP is a dead end, the google api is still an option but it is a dupliciitve feature of something google is planning on releasing in the near future.
+3. Another option is a cloud backend to fetch email. This comes with a lot of liability that i'm not willing to take on, as well as costs.
+4. all this is before the challenge of on-device ai. while technically possible there are many integrations that would need to happen given the current ecosystem. 
 
 # Getting Started
 
