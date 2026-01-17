@@ -21,6 +21,12 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import InboxSummaryScreen from './src/screens/InboxSummaryScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import { Text } from './src/components/Text';
+import type { Account, AccountSecret } from './src/storage/accounts';
+import {
+  getAccountSecret,
+  listAccounts,
+  saveAccount,
+} from './src/storage/accounts';
 import { colors } from './src/theme/colors';
 
 type ScreenKey = 'inbox' | 'settings';
@@ -39,6 +45,41 @@ function App() {
 function AppContent() {
   const safeAreaInsets = useSafeAreaInsets();
   const [activeScreen, setActiveScreen] = React.useState<ScreenKey>('inbox');
+  const [account, setAccount] = React.useState<Account | null>(null);
+  const [secret, setSecret] = React.useState<AccountSecret | null>(null);
+
+  React.useEffect(() => {
+    let isActive = true;
+
+    const loadAccount = async () => {
+      const accounts = await listAccounts();
+      const primary = accounts[0];
+      if (!primary) {
+        return;
+      }
+
+      const storedSecret = await getAccountSecret(primary.id);
+      if (isActive) {
+        setAccount(primary);
+        setSecret(storedSecret);
+      }
+    };
+
+    void loadAccount();
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  const handleSaveAccount = React.useCallback(
+    async (nextAccount: Account, nextSecret: AccountSecret) => {
+      await saveAccount(nextAccount, nextSecret);
+      setAccount(nextAccount);
+      setSecret(nextSecret);
+    },
+    [],
+  );
 
   return (
     <View style={[styles.container, { paddingTop: safeAreaInsets.top }]}>
@@ -71,8 +112,16 @@ function AppContent() {
         )}
       </View>
       <View style={styles.screen}>
-        {activeScreen === 'inbox' && <InboxSummaryScreen />}
-        {activeScreen === 'settings' && <SettingsScreen />}
+        {activeScreen === 'inbox' && (
+          <InboxSummaryScreen account={account} secret={secret} />
+        )}
+        {activeScreen === 'settings' && (
+          <SettingsScreen
+            initialAccount={account}
+            initialSecret={secret}
+            onSave={handleSaveAccount}
+          />
+        )}
       </View>
     </View>
   );

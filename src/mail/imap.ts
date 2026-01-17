@@ -1,17 +1,15 @@
 import {
-  createMailCoreConnection,
-  type MailCoreConnection,
+  fetchImapInbox,
   type MailCoreConfig,
+  type MailCoreMessage,
 } from './mailcore';
 
-export type ImapClient = MailCoreConnection & {
-  fetchInbox: () => Promise<void>;
+export type ImapClient = {
+  fetchInbox: () => Promise<MailCoreMessage[]>;
 };
 
 export function createImapClient(config: MailCoreConfig): ImapClient {
-  const base = createMailCoreConnection(config);
   return {
-    ...base,
-    fetchInbox: async () => {},
+    fetchInbox: async () => fetchImapInbox(config),
   };
 }

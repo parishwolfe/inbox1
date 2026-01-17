@@ -1,17 +1,15 @@
 import {
-  createMailCoreConnection,
-  type MailCoreConnection,
+  fetchPop3Messages,
   type MailCoreConfig,
+  type MailCoreMessage,
 } from './mailcore';
 
-export type Pop3Client = MailCoreConnection & {
-  fetchMessages: () => Promise<void>;
+export type Pop3Client = {
+  fetchMessages: () => Promise<MailCoreMessage[]>;
 };
 
 export function createPop3Client(config: MailCoreConfig): Pop3Client {
-  const base = createMailCoreConnection(config);
   return {
-    ...base,
-    fetchMessages: async () => {},
+    fetchMessages: async () => fetchPop3Messages(config),
   };
 }

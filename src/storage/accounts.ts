@@ -1,4 +1,5 @@
 export type MailProtocol = 'imap' | 'pop3';
+export type MailSecurity = 'ssl' | 'starttls' | 'none';
 
 export type Account = {
   id: string;
@@ -7,6 +8,7 @@ export type Account = {
   host: string;
   port: number;
   username: string;
+  security: MailSecurity;
 };
 
 export type AccountSecret = {
