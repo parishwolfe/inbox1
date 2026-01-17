@@ -1,7 +1,6 @@
 import type { Account, AccountSecret } from '../storage/accounts';
 import type { EmailSummary } from '../types/email';
 import { createImapClient } from './imap';
-import { createPop3Client } from './pop3';
 import type { MailCoreMessage } from './mailcore';
 
 type RawRecord = Record<string, unknown>;
@@ -105,10 +104,11 @@ export async function fetchInboxSummaries(
     security: account.security,
   };
 
-  const rawMessages =
-    account.protocol === 'imap'
-      ? await createImapClient(config).fetchInbox()
-      : await createPop3Client(config).fetchMessages();
+  if (account.protocol !== 'imap') {
+    throw new Error('POP3 sync is not supported yet. Use IMAP for now.');
+  }
+
+  const rawMessages = await createImapClient(config).fetchInbox();
 
   return rawMessages.map((message, index) => toEmailSummary(message, index));
 }
